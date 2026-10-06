@@ -1,10 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, CarFront, Headphones, Leaf, MapPin, Route, Search, Send, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { ArrowRight, BadgeCheck, CarFront, Headphones, Leaf, MapPin, Route, Send, ShieldCheck, Sparkles, Users, type LucideIcon } from "lucide-react";
 import MotionShell from "@/components/MotionShell";
 import TripSearch from "@/components/TripSearch";
 import TravelCard from "@/components/TravelCard";
-import { business, destinations, packages } from "@/lib/data";
+import { business, destinations } from "@/lib/data";
+
+const uspItems: Array<[string,string,LucideIcon]> = [
+  ["Local Expertise","Bhadravathi-first service and practical regional routes",BadgeCheck],
+  ["Vehicle Options","Sedans, SUVs and group travel options",CarFront],
+  ["Flexible Itineraries","Routes built around your schedule",Route],
+  ["Helpful Support","One point of contact before and during travel",Headphones]
+];
+const featureItems: Array<[LucideIcon,string,string]> = [
+  [Users,"Customizable Trips","Personalized routes, stays and vehicle choices."],
+  [Sparkles,"Diverse Experiences","Nature, heritage, hills, coast and city escapes."],
+  [Leaf,"Comfort First","Clear choices, simple planning and responsive support."],
+  [ShieldCheck,"Seamless Booking","Quote, confirm and manage in a few clear steps."]
+];
 
 export default function HomePage(){
   return <MotionShell><main>
@@ -23,7 +36,7 @@ export default function HomePage(){
     </section>
 
     <section className="border-b border-slate-100 bg-white pt-24"><div className="container grid gap-6 py-9 md:grid-cols-4">
-      {[["Local Expertise", "Bhadravathi-first service and practical regional routes", BadgeCheck],["Vehicle Options","Sedans, SUVs and group travel options",CarFront],["Flexible Itineraries","Routes built around your schedule",Route],["Helpful Support","One point of contact before and during travel",Headphones]].map(([t,d,I])=><div key={String(t)} className="scroll-reveal flex gap-4 border-r border-slate-100 pr-5 last:border-0"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#10a89e]/10 text-[#10a89e]"><I size={21}/></span><div><strong className="text-sm text-[#08263f]">{t}</strong><p className="mt-1 text-xs leading-5 text-slate-500">{d}</p></div></div>)}
+      {uspItems.map(([t,d,Icon])=><div key={t} className="scroll-reveal flex gap-4 border-r border-slate-100 pr-5 last:border-0"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#10a89e]/10 text-[#10a89e]"><Icon size={21}/></span><div><strong className="text-sm text-[#08263f]">{t}</strong><p className="mt-1 text-xs leading-5 text-slate-500">{d}</p></div></div>)}
     </div></section>
 
     <section className="py-20 md:py-24"><div className="container">
@@ -33,11 +46,11 @@ export default function HomePage(){
 
     <section className="bg-[#f6faf9] py-20 md:py-24"><div className="container grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
       <div className="scroll-reveal"><div className="text-[10px] font-semibold uppercase tracking-[.22em] text-[#10a89e]">Why travel with us</div><h2 className="mt-3 text-4xl font-semibold leading-tight tracking-tight text-[#08263f]">Making Travel<br/>Simple & Memorable</h2><p className="mt-5 max-w-lg text-sm leading-7 text-slate-600">We handle the practical details so you can focus on the journey. Ask for a private route, family plan, group vehicle or a fully custom Karnataka itinerary.</p><div className="mt-8 flex flex-wrap gap-3"><Link href="/about" className="magnetic inline-flex items-center gap-2 rounded-full bg-[#10a89e] px-5 py-3 text-sm font-semibold text-white">Learn More <ArrowRight size={15}/></Link><Link href="/booking" className="magnetic inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-[#08263f]">Request Booking</Link></div><div className="mt-10 flex gap-9"><div><div className="text-3xl font-semibold text-[#08263f]"><span className="count-up" data-target="5">0</span>.0</div><span className="text-xs text-slate-500">Google rating</span></div><div><div className="text-3xl font-semibold text-[#08263f]"><span className="count-up" data-target={business.reviewCount}>0</span>+</div><span className="text-xs text-slate-500">Google reviews</span></div></div></div>
-      <div className="grid gap-4 sm:grid-cols-2">{[[Users,"Customizable Trips","Personalized routes, stays and vehicle choices."],[Sparkles,"Diverse Experiences","Nature, heritage, hills, coast and city escapes."],[Leaf,"Comfort First","Clear choices, simple planning and responsive support."],[ShieldCheck,"Seamless Booking","Quote, confirm and manage in a few clear steps."]].map(([I,t,d])=><div key={String(t)} className="scroll-reveal card-tilt rounded-2xl border border-white bg-white p-7 soft-shadow"><I size={26} className="text-[#10a89e]"/><h3 className="mt-5 font-semibold text-[#08263f]">{t}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{d}</p></div>)}</div>
+      <div className="grid gap-4 sm:grid-cols-2">{featureItems.map(([Icon,t,d])=><div key={t} className="scroll-reveal card-tilt rounded-2xl border border-white bg-white p-7 soft-shadow"><Icon size={26} className="text-[#10a89e]"/><h3 className="mt-5 font-semibold text-[#08263f]">{t}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{d}</p></div>)}</div>
     </div></section>
 
     <section className="py-20"><div className="container"><div className="scroll-reveal relative overflow-hidden rounded-3xl bg-[#08263f] p-8 text-white md:p-12">
-      <Image src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2200&q=92" alt="Scenic travel offer background" fill className="object-cover opacity-35" quality={92}/><div className="absolute inset-0 bg-gradient-to-r from-[#08263f]/95 via-[#08263f]/70 to-transparent"/><div className="relative grid gap-9 lg:grid-cols-[1.1fr_1fr] lg:items-center"><div><div className="text-[10px] font-semibold uppercase tracking-[.22em] text-teal-200">Special Offer</div><h2 className="mt-3 text-3xl font-semibold md:text-4xl">Plan Your Next Karnataka Escape</h2><p className="mt-3 max-w-xl text-sm leading-6 text-white/75">Combine local sightseeing, vehicle rental and group travel into one simple plan.</p><Link href="/quote" className="magnetic mt-6 inline-flex items-center gap-2 rounded-full bg-[#10a89e] px-5 py-3 text-sm font-semibold text-white">Get My Quote <ArrowRight size={15}/></Link></div><div className="grid gap-3 sm:grid-cols-3">{[[Users,"Group Friendly"],[BadgeCheck,"Flexible Plans"],[Route,"Route Based"]].map(([I,t])=><div key={String(t)} className="rounded-2xl border border-white/10 bg-white/10 p-5 glass"><I size={20} className="text-teal-200"/><strong className="mt-4 block text-sm">{t}</strong><span className="mt-1 block text-xs leading-5 text-white/65">Built around real travel needs.</span></div>)}</div></div>
+      <Image src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2200&q=92" alt="Scenic travel offer background" fill className="object-cover opacity-35" quality={92}/><div className="absolute inset-0 bg-gradient-to-r from-[#08263f]/95 via-[#08263f]/70 to-transparent"/><div className="relative grid gap-9 lg:grid-cols-[1.1fr_1fr] lg:items-center"><div><div className="text-[10px] font-semibold uppercase tracking-[.22em] text-teal-200">Special Offer</div><h2 className="mt-3 text-3xl font-semibold md:text-4xl">Plan Your Next Karnataka Escape</h2><p className="mt-3 max-w-xl text-sm leading-6 text-white/75">Combine local sightseeing, vehicle rental and group travel into one simple plan.</p><Link href="/quote" className="magnetic mt-6 inline-flex items-center gap-2 rounded-full bg-[#10a89e] px-5 py-3 text-sm font-semibold text-white">Get My Quote <ArrowRight size={15}/></Link></div><div className="grid gap-3 sm:grid-cols-3">{[[Users,"Group Friendly"],[BadgeCheck,"Flexible Plans"],[Route,"Route Based"]].map(([Icon,t])=><div key={String(t)} className="rounded-2xl border border-white/10 bg-white/10 p-5 glass"><Icon size={20} className="text-teal-200"/><strong className="mt-4 block text-sm">{t}</strong><span className="mt-1 block text-xs leading-5 text-white/65">Built around real travel needs.</span></div>)}</div></div>
     </div></div></section>
 
     <section className="pb-20"><div className="container grid items-center gap-6 rounded-2xl border border-slate-100 bg-[#f5faf9] p-6 md:grid-cols-[.9fr_1.1fr] md:p-8"><div className="scroll-reveal flex items-center gap-4"><span className="grid h-12 w-12 place-items-center rounded-full bg-white text-[#10a89e] soft-shadow"><Send size={21}/></span><div><strong className="block text-base text-[#08263f]">Get Travel Inspiration</strong><span className="text-sm text-slate-500">Occasional travel ideas and useful planning tips.</span></div></div><form className="flex flex-col gap-2 sm:flex-row" action="/contact"><input required type="email" name="email" placeholder="Enter your email address" className="min-h-12 flex-1 rounded-full border border-slate-200 bg-white px-5 text-sm outline-none focus:border-[#10a89e]"/><button className="magnetic min-h-12 rounded-full bg-[#10a89e] px-6 text-sm font-semibold text-white transition hover:bg-[#087c76]" type="submit">Subscribe</button></form></div></section>
