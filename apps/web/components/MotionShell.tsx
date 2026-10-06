@@ -32,17 +32,20 @@ export default function MotionShell({children}:PropsWithChildren) {
         gsap.to(el,{yPercent:-8,ease:"none",scrollTrigger:{trigger:el,start:"top bottom",end:"bottom top",scrub:1}});
       });
 
-      gsap.utils.toArray<HTMLElement>(q(".card-tilt")).forEach((card) => {
-        const move=(e:MouseEvent)=>{const r=card.getBoundingClientRect();const rx=((e.clientY-r.top)/r.height-.5)*-3.5;const ry=((e.clientX-r.left)/r.width-.5)*3.5;gsap.to(card,{rotateX:rx,rotateY:ry,transformPerspective:1000,duration:.25,overwrite:true});};
-        const leave=()=>gsap.to(card,{rotateX:0,rotateY:0,duration:.5,ease:"power3.out"});
-        card.addEventListener("mousemove",move); card.addEventListener("mouseleave",leave);
-      });
+      const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      if (canHover) {
+        gsap.utils.toArray<HTMLElement>(q(".card-tilt")).forEach((card) => {
+          const move=(e:MouseEvent)=>{const r=card.getBoundingClientRect();const rx=((e.clientY-r.top)/r.height-.5)*-3.5;const ry=((e.clientX-r.left)/r.width-.5)*3.5;gsap.to(card,{rotateX:rx,rotateY:ry,transformPerspective:1000,duration:.25,overwrite:true});};
+          const leave=()=>gsap.to(card,{rotateX:0,rotateY:0,duration:.5,ease:"power3.out"});
+          card.addEventListener("mousemove",move); card.addEventListener("mouseleave",leave);
+        });
 
-      gsap.utils.toArray<HTMLElement>(q(".magnetic")).forEach((btn) => {
-        const move=(e:MouseEvent)=>{const r=btn.getBoundingClientRect();gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.12,y:(e.clientY-r.top-r.height/2)*.12,duration:.25});};
-        const leave=()=>gsap.to(btn,{x:0,y:0,duration:.5,ease:"elastic.out(1,.45)"});
-        btn.addEventListener("mousemove",move);btn.addEventListener("mouseleave",leave);
-      });
+        gsap.utils.toArray<HTMLElement>(q(".magnetic")).forEach((btn) => {
+          const move=(e:MouseEvent)=>{const r=btn.getBoundingClientRect();gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.12,y:(e.clientY-r.top-r.height/2)*.12,duration:.25});};
+          const leave=()=>gsap.to(btn,{x:0,y:0,duration:.5,ease:"elastic.out(1,.45)"});
+          btn.addEventListener("mousemove",move);btn.addEventListener("mouseleave",leave);
+        });
+      }
 
       gsap.utils.toArray<HTMLElement>(q(".count-up")).forEach((el)=>{
         const target=Number(el.dataset.target||0);
