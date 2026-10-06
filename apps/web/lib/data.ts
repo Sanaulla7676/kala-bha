@@ -12,6 +12,8 @@ export type TravelItem = {
 export const business = {
   name: "Sri Kala Bhairava Holidays",
   address: "Hosamane, Bhadravathi, Karnataka 577301",
+  phone: "9964082098",
+  whatsapp: "919964082098",
   rating: 5.0,
   reviewCount: 12,
   lat: 13.8409,
