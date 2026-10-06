@@ -18,6 +18,7 @@ const featureItems: Array<[LucideIcon,string,string]> = [
   [Leaf,"Comfort First","Clear choices, simple planning and responsive support."],
   [ShieldCheck,"Seamless Booking","Quote, confirm and manage in a few clear steps."]
 ];
+const offerItems: Array<[LucideIcon,string]> = [[Users,"Group Friendly"],[BadgeCheck,"Flexible Plans"],[Route,"Route Based"]];
 
 export default function HomePage(){
   return <MotionShell><main>
