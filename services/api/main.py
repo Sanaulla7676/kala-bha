@@ -1,18 +1,21 @@
-from datetime import datetime
+from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 import os
 from typing import Optional
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from sqlalchemy import DateTime, Integer, String, Text, func
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 engine = create_async_engine(DATABASE_URL, pool_pre_ping=True) if DATABASE_URL else None
 SessionLocal = async_sessionmaker(engine, expire_on_commit=False) if engine else None
 
-class Base(DeclarativeBase): pass
+class Base(DeclarativeBase):
+    pass
 
 class Lead(Base):
     __tablename__ = "leads"
@@ -59,37 +62,44 @@ class BookingIn(BaseModel):
     vehicle: Optional[str] = None
     notes: Optional[str] = None
 
-app = FastAPI(title="Sri Kala Bhairava Holidays API", version="2.0.0")
-app.add_middleware(CORSMiddleware, allow_origins=os.getenv("CORS_ORIGINS","http://localhost:3000").split(","), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    if engine:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    yield
+
+app = FastAPI(title="Sri Kala Bhairava Holidays API", version="2.1.0", lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:3000").split(","),
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 async def health():
-    return {"status":"ok","service":"skbh-api","timestamp":datetime.utcnow().isoformat()}
+    return {"status": "ok", "service": "skbh-api", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 @app.post("/leads")
 async def create_lead(payload: LeadIn):
     if not SessionLocal:
-        return {"stored":False,"message":"DATABASE_URL is not configured","data":payload.model_dump()}
+        return {"stored": False, "message": "DATABASE_URL is not configured", "data": payload.model_dump()}
     async with SessionLocal() as session:
-        row=Lead(**payload.model_dump())
+        row = Lead(**payload.model_dump())
         session.add(row)
         await session.commit()
         await session.refresh(row)
-        return {"stored":True,"id":row.id}
+        return {"stored": True, "id": row.id}
 
 @app.post("/bookings")
 async def create_booking(payload: BookingIn):
     if not SessionLocal:
-        return {"stored":False,"message":"DATABASE_URL is not configured","data":payload.model_dump()}
+        return {"stored": False, "message": "DATABASE_URL is not configured", "data": payload.model_dump()}
     async with SessionLocal() as session:
-        row=Booking(**payload.model_dump())
+        row = Booking(**payload.model_dump())
         session.add(row)
         await session.commit()
         await session.refresh(row)
-        return {"stored":True,"id":row.id}
-
-@app.on_event("startup")
-async def startup():
-    if engine:
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+        return {"stored": True, "id": row.id}
