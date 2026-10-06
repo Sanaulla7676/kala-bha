@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+  --teal: #10a89e;
+  --teal-dark: #087c76;
+  --navy: #08263f;
+  --ink: #102a43;
+  --muted: #6f7d86;
+  --line: #e7eef0;
+  --surface: #f5faf9;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin:0; background:#fff; color:var(--ink); font-family:var(--font-poppins), system-ui, sans-serif; }
+a { text-decoration:none; }
+::selection { background:rgba(16,168,158,.2); color:var(--navy); }
+
+.container { width:min(1240px, calc(100% - 40px)); margin-inline:auto; }
+.glass { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.soft-shadow { box-shadow: 0 12px 40px rgba(8,38,63,.08); }
+.hero-gradient { background:linear-gradient(90deg, rgba(5,35,57,.78) 0%, rgba(5,35,57,.48) 40%, rgba(5,35,57,.03) 80%); }
+.reveal-up { opacity:0; transform:translateY(32px); }
+.reveal-scale { opacity:0; transform:scale(.94); }
+.story-mask { clip-path: inset(0 100% 0 0); }
+.marquee-track { display:flex; width:max-content; }
+.pill { border-radius:999px; }
+.text-balance { text-wrap:balance; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
