@@ -12,8 +12,9 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin:0; background:#fff; color:var(--ink); font-family:var(--font-poppins), system-ui, sans-serif; }
+body { margin:0; background:#fff; color:var(--ink); font-family:var(--font-poppins), system-ui, sans-serif; overflow-x:hidden; }
 a { text-decoration:none; }
+button, input, textarea, select { font:inherit; }
 ::selection { background:rgba(16,168,158,.2); color:var(--navy); }
 
 .container { width:min(1240px, calc(100% - 40px)); margin-inline:auto; }
@@ -26,6 +27,18 @@ a { text-decoration:none; }
 .marquee-track { display:flex; width:max-content; }
 .pill { border-radius:999px; }
 .text-balance { text-wrap:balance; }
+
+@media (max-width: 767px) {
+  .container { width:min(100% - 24px, 640px); }
+  .hero-gradient { background:linear-gradient(180deg, rgba(5,35,57,.30) 0%, rgba(5,35,57,.64) 52%, rgba(5,35,57,.96) 100%); }
+  .hero-copy { max-width:100%; }
+  .search-card { width:100%; }
+  .glass { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container { width:min(100% - 32px, 900px); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
