@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import SiteFooter from "@/components/SiteFooter";
+import ContactActions from "@/components/ContactActions";
 import { business } from "@/lib/data";
 
 const poppins = Poppins({ subsets:["latin"], weight:["300","400","500","600","700"], variable:"--font-poppins" });
@@ -21,9 +22,10 @@ export default function RootLayout({children}:{children:React.ReactNode}){
     "@type":"TravelAgency",
     "name":business.name,
     "description":business.description,
+    "telephone":business.phone,
     "address":{"@type":"PostalAddress","streetAddress":"Hosamane","addressLocality":"Bhadravathi","addressRegion":"Karnataka","postalCode":"577301","addressCountry":"IN"},
     "geo":{"@type":"GeoCoordinates","latitude":business.lat,"longitude":business.lng},
     "aggregateRating":{"@type":"AggregateRating","ratingValue":business.rating,"reviewCount":business.reviewCount}
   };
-  return <html lang="en"><head><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/></head><body className={poppins.variable}><Navigation/>{children}<SiteFooter/></body></html>;
+  return <html lang="en"><head><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/></head><body className={poppins.variable}><Navigation/>{children}<SiteFooter/><ContactActions/></body></html>;
 }
