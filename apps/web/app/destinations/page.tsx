@@ -1,0 +1,4 @@
+import TravelCard from "@/components/TravelCard";
+import MotionShell from "@/components/MotionShell";
+import { destinations } from "@/lib/data";
+export default function DestinationsPage(){return <MotionShell><main className="bg-[#f8fbfb]"><section className="container py-20"><div className="scroll-reveal max-w-3xl"><div className="text-[10px] font-semibold uppercase tracking-[.22em] text-[#10a89e]">Destinations</div><h1 className="mt-3 text-5xl font-semibold tracking-tight text-[#08263f] md:text-6xl">Go somewhere worth remembering.</h1><p className="mt-5 text-base leading-7 text-slate-500">Explore Karnataka routes and build a trip around your dates, group and vehicle needs.</p></div><div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{destinations.map(d=><div className="scroll-reveal" key={d.slug}><TravelCard item={d} hrefBase="/destinations"/></div>)}</div></section></main></MotionShell>}
